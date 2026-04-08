@@ -1,5 +1,6 @@
 name: Playwright CI
 
+# Run workflow on push or PR to main branch
 on:
   push:
     branches: [ main ]
@@ -11,23 +12,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout the repo
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4️⃣ Install Playwright browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      # 5️⃣ Run Playwright tests
       - name: Run Playwright tests
         run: npx playwright test --reporter=list
 
+      # 6️⃣ Upload Playwright report
       - name: Upload Playwright report
         uses: actions/upload-artifact@v3
         with:
